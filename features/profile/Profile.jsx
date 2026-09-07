@@ -430,6 +430,8 @@ const Profile = () => {
           />
           {errors.address && <span className="text-destructive text-sm">{errors.address}</span>}
         </div>
+      </div>
+
       {/* Store / Shop Management CTA Card */}
       <div className="md:border md:p-5 md:rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-muted/40 border-dashed border-primary/40">
         <div className="flex items-center gap-3.5">

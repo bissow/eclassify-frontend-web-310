@@ -54,6 +54,17 @@ This update delivers a complete frontend experience for browsing nearby stores, 
   - Central location selection via `LocationModal`
   - Operating hours (Opening/Closing times and working days)
   - Contact phone, email, and website
+- **Verified Store Protection:**
+  - When a store is verified by admin (`is_verified = true`), a green verified banner explains that store details are locked. All input controls and uploaders are disabled from modification.
 
 ### 2.6 Navigation (`features/navigation/home/HomeHeader.jsx` & `HomeMobileMenu.jsx`)
 - Added direct **Stores** navigation button in desktop header and mobile menu sheet.
+
+---
+
+## 3. Bug Fixes & Improvements
+
+1. **Turbopack JSX Parse Error:** Fixed syntax closure in `Profile.jsx` for Next.js 16 / Turbopack production build.
+2. **Central Location Modal Integration:** Centralized location selection across stores directory, store setup, and ad listing.
+3. **Multi-language Support:** Added complete English locale translations in `lang/locale/en.json`.
+

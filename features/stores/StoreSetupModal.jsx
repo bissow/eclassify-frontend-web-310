@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { CircleNotchIcon, MapPinIcon, StorefrontIcon, UploadSimpleIcon } from "@phosphor-icons/react";
+import { CircleNotchIcon, LockIcon, MapPinIcon, ShieldCheckIcon, StorefrontIcon, UploadSimpleIcon } from "@phosphor-icons/react";
 import LocationModal from "@/features/location/LocationModal";
 import { toast } from "sonner";
 import CustomImage from "@/components/common/CustomImage";
@@ -41,6 +41,7 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
   const [logoPreview, setLogoPreview] = useState("");
   const [bannerPreview, setBannerPreview] = useState("");
   const [selectedLocationDisplay, setSelectedLocationDisplay] = useState("");
+  const [isVerified, setIsVerified] = useState(false);
 
   const fetchMyStore = async () => {
     try {
@@ -48,6 +49,7 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
       const res = await storesApi.getMyStore();
       if (res?.data?.error === false && res?.data?.data?.has_store) {
         const s = res.data.data.store;
+        setIsVerified(!!s.is_verified);
         setFormData({
           name: s.name || "",
           description: s.description || "",
@@ -150,10 +152,25 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+              {isVerified && (
+                <div className="flex items-start gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-emerald-700 dark:text-emerald-400">
+                  <ShieldCheckIcon className="h-6 w-6 shrink-0 text-emerald-500 mt-0.5" />
+                  <div className="text-sm">
+                    <p className="font-semibold flex items-center gap-1.5">
+                      {t("storeVerifiedTitle") || "Verified Official Store"}
+                      <LockIcon className="h-3.5 w-3.5" />
+                    </p>
+                    <p className="text-xs mt-0.5 text-muted-foreground">
+                      {t("storeVerifiedNotice") || "This store has been officially verified by the administrator. Store details and location are locked and cannot be modified. Please contact support if you need to update any information."}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Banner & Logo Upload Row */}
               <div className="space-y-2">
                 <Label>{t("storeCoverBanner") || "Store Cover Banner"}</Label>
-                <div className="relative h-28 w-full rounded-xl border border-dashed border-border bg-muted overflow-hidden flex items-center justify-center cursor-pointer">
+                <div className={`relative h-28 w-full rounded-xl border border-dashed border-border bg-muted overflow-hidden flex items-center justify-center ${isVerified ? "cursor-not-allowed opacity-75" : "cursor-pointer"}`}>
                   {bannerPreview ? (
                     <CustomImage src={bannerPreview} alt="Cover" fill className="object-cover" />
                   ) : (
@@ -162,7 +179,9 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
                       <span>{t("uploadBanner") || "Click to upload banner (max 7MB)"}</span>
                     </div>
                   )}
-                  <input type="file" accept="image/*" onChange={handleBannerChange} className="absolute inset-0 opacity-0 cursor-pointer" />
+                  {!isVerified && (
+                    <input type="file" accept="image/*" onChange={handleBannerChange} className="absolute inset-0 opacity-0 cursor-pointer" />
+                  )}
                 </div>
               </div>
 
@@ -176,22 +195,25 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
                       <StorefrontIcon className="h-6 w-6 text-muted-foreground" />
                     )}
                   </div>
-                  <label className="cursor-pointer">
-                    <span className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted">
-                      {t("changeLogo") || "Choose Logo"}
-                    </span>
-                    <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" />
-                  </label>
+                  {!isVerified && (
+                    <label className="cursor-pointer">
+                      <span className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted">
+                        {t("changeLogo") || "Choose Logo"}
+                      </span>
+                      <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" />
+                    </label>
+                  )}
                 </div>
               </div>
 
-              {/* Store Name & Email */}
+              {/* Store Name & Phone */}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
                   <Label htmlFor="name">{t("storeName") || "Store Name"} *</Label>
                   <Input
                     id="name"
                     required
+                    disabled={isVerified}
                     value={formData.name}
                     onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
                     placeholder="e.g. Apex Electronics"
@@ -202,6 +224,7 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
                   <Label htmlFor="contact">{t("storePhone") || "Store Phone"}</Label>
                   <Input
                     id="contact"
+                    disabled={isVerified}
                     value={formData.contact}
                     onChange={(e) => setFormData((prev) => ({ ...prev, contact: e.target.value }))}
                     placeholder="e.g. 9876543210"
@@ -215,6 +238,7 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
                 <Textarea
                   id="description"
                   rows={3}
+                  disabled={isVerified}
                   value={formData.description}
                   onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
                   placeholder="Tell buyers what products and services you offer..."
@@ -227,6 +251,7 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
                 <Button
                   type="button"
                   variant="outline"
+                  disabled={isVerified}
                   onClick={() => setIsLocationModalOpen(true)}
                   className="w-full justify-start text-left font-normal gap-2"
                 >
@@ -242,6 +267,7 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
                 <Label htmlFor="address">{t("streetAddress") || "Street Address"}</Label>
                 <Input
                   id="address"
+                  disabled={isVerified}
                   value={formData.address}
                   onChange={(e) => setFormData((prev) => ({ ...prev, address: e.target.value }))}
                   placeholder="e.g. 124 Main Street, Shop No. 4"
@@ -254,6 +280,7 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
                   <Label htmlFor="opening_time">{t("openingTime") || "Opening Time"}</Label>
                   <Input
                     id="opening_time"
+                    disabled={isVerified}
                     value={formData.opening_time}
                     onChange={(e) => setFormData((prev) => ({ ...prev, opening_time: e.target.value }))}
                     placeholder="09:00 AM"
@@ -264,6 +291,7 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
                   <Label htmlFor="closing_time">{t("closingTime") || "Closing Time"}</Label>
                   <Input
                     id="closing_time"
+                    disabled={isVerified}
                     value={formData.closing_time}
                     onChange={(e) => setFormData((prev) => ({ ...prev, closing_time: e.target.value }))}
                     placeholder="08:00 PM"
@@ -277,6 +305,7 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
                 <Input
                   id="website"
                   type="url"
+                  disabled={isVerified}
                   value={formData.website}
                   onChange={(e) => setFormData((prev) => ({ ...prev, website: e.target.value }))}
                   placeholder="https://example.com"
@@ -286,12 +315,14 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
               {/* Action Buttons */}
               <div className="flex justify-end gap-3 pt-4 border-t border-border">
                 <Button type="button" variant="outline" onClick={onClose} disabled={isLoading}>
-                  {t("cancel") || "Cancel"}
+                  {t("cancel") || "Close"}
                 </Button>
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading && <CircleNotchIcon className="h-4 w-4 animate-spin mr-2" />}
-                  {t("saveStore") || "Save Store Setup"}
-                </Button>
+                {!isVerified && (
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading && <CircleNotchIcon className="h-4 w-4 animate-spin mr-2" />}
+                    {t("saveStore") || "Save Store Setup"}
+                  </Button>
+                )}
               </div>
             </form>
           )}

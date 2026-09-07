@@ -18,7 +18,7 @@ import {
   ShareNetworkIcon,
   CircleNotchIcon,
 } from "@phosphor-icons/react";
-import ProductCard from "@/components/cards/ProductCard";
+import AdCard from "@/components/common/AdCard";
 import ShareDropdown from "@/components/common/ShareDropdown";
 import { useSelector } from "react-redux";
 import { getIsLoggedIn } from "@/store/slices/authSlice";
@@ -201,7 +201,7 @@ const StoreDetail = ({ initialData, slug }) => {
             {itemsData.length > 0 ? (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {itemsData.map((item) => (
-                  <ProductCard key={item.id} item={item} />
+                  <AdCard key={item.id} item={item} />
                 ))}
               </div>
             ) : (
