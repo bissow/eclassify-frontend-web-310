@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { ArrowUpIcon, StarIcon, SparkleIcon, ShieldWarningIcon, PackageIcon } from "@phosphor-icons/react";
+import { ArrowUpIcon, StarIcon, SparkleIcon, ShieldWarningIcon, PackageIcon, InfoIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "@/hooks/useNavigate";
 
@@ -65,6 +65,9 @@ export default function PromoteAdModal({ isOpen, setIsOpen, itemId, onSuccess })
     }
   };
 
+  const activePromotions = options?.active_promotions || options?.options?.filter((o) => o.is_active).map((o) => o.type) || [];
+  const isCurrentlyActiveSelected = activePromotions.includes(selectedType);
+
   const boostTypes = [
     {
       id: "daily_bump_up",
@@ -73,6 +76,7 @@ export default function PromoteAdModal({ isOpen, setIsOpen, itemId, onSuccess })
       icon: ArrowUpIcon,
       available: options?.can_bump,
       remaining: options?.bump_remaining,
+      isActive: activePromotions.includes("daily_bump_up"),
     },
     {
       id: "top_ad",
@@ -81,6 +85,7 @@ export default function PromoteAdModal({ isOpen, setIsOpen, itemId, onSuccess })
       icon: StarIcon,
       available: options?.can_top_ad,
       remaining: options?.top_ad_remaining,
+      isActive: activePromotions.includes("top_ad"),
     },
     {
       id: "spotlight",
@@ -89,12 +94,13 @@ export default function PromoteAdModal({ isOpen, setIsOpen, itemId, onSuccess })
       icon: SparkleIcon,
       available: options?.can_spotlight,
       remaining: options?.spotlight_remaining,
+      isActive: activePromotions.includes("spotlight"),
     },
   ];
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold flex items-center gap-2">
             <SparkleIcon size={22} weight="fill" className="text-primary" />
@@ -192,7 +198,14 @@ export default function PromoteAdModal({ isOpen, setIsOpen, itemId, onSuccess })
 
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-sm text-foreground">{boost.title}</h4>
+                    <div className="flex items-center gap-1.5">
+                      <h4 className="font-bold text-sm text-foreground">{boost.title}</h4>
+                      {boost.isActive && (
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/15 text-green-600 dark:text-green-400 font-bold">
+                          {t("boostCurrentlyActive") || "Currently Active"}
+                        </span>
+                      )}
+                    </div>
                     {isAvailable ? (
                       <span className="text-[11px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-semibold">
                         {boost.remaining} {t("creditsLeft") || "credits left"}
@@ -208,6 +221,16 @@ export default function PromoteAdModal({ isOpen, setIsOpen, itemId, onSuccess })
               </div>
             );
           })}
+
+          {isCurrentlyActiveSelected && (
+            <div className="p-3.5 rounded-xl border border-primary/30 bg-primary/10 flex items-start gap-2 text-xs text-foreground mt-1">
+              <InfoIcon size={18} weight="bold" className="text-primary shrink-0 mt-0.5" />
+              <span>
+                {t("boostActiveNotice") ||
+                  "This boost is currently active on this advertisement. Promoting again will extend or replace the active boost duration."}
+              </span>
+            </div>
+          )}
         </div>
 
         <DialogFooter className="gap-2 sm:gap-0">
@@ -224,7 +247,11 @@ export default function PromoteAdModal({ isOpen, setIsOpen, itemId, onSuccess })
               !boostTypes.find((b) => b.id === selectedType)?.available
             }
           >
-            {isSubmitting ? (t("applying") || "Applying...") : (t("boostNow") || "Apply Boost Now")}
+            {isSubmitting
+              ? (t("applying") || "Applying...")
+              : isCurrentlyActiveSelected
+              ? (t("extendOrReplaceBoost") || "Extend / Replace Boost")
+              : (t("boostNow") || "Apply Boost Now")}
           </Button>
         </DialogFooter>
       </DialogContent>

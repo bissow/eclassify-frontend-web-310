@@ -51,6 +51,15 @@ const AdDetailCard = ({ productDetails, setProductDetails }) => {
     }
   };
 
+  const activePromo =
+    productDetails?.active_promotion_item ||
+    productDetails?.active_promotions?.sales?.[0];
+  const promotionalPrice =
+    activePromo?.formatted_promotional_price ||
+    (activePromo?.promotional_price
+      ? formatPriceAbbreviated(activePromo.promotional_price, t, settings)
+      : null);
+
   return (
     <div className="flex flex-col gap-4 border p-4 rounded-lg">
       <div className="flex justify-between max-w-full">
@@ -63,16 +72,16 @@ const AdDetailCard = ({ productDetails, setProductDetails }) => {
           </h1>
 
           {/* Promotion / Sale Badge */}
-          {productDetails?.active_promotion_item && (
+          {activePromo && (
             <div className="flex items-center gap-2 flex-wrap">
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-white bg-destructive shadow-xs">
-                🔥 {productDetails.active_promotion_item.discount_type === "percentage"
-                  ? `${productDetails.active_promotion_item.discount_value}% OFF`
-                  : `SAVE ${productDetails.active_promotion_item.discount_value}`} - {t("specialOffer") || "SALE"}
+                🔥 {activePromo.discount_type === "percentage" || activePromo.discount_percentage
+                  ? `${activePromo.discount_percentage || activePromo.discount_value}% OFF`
+                  : `SAVE ${activePromo.discount_value}`} - {t("specialOffer") || "SALE"}
               </span>
-              {productDetails.active_promotion_item.remaining_stock_quantity <= 5 && (
+              {activePromo.remaining_stock_quantity <= 5 && activePromo.remaining_stock_quantity > 0 && (
                 <span className="text-xs font-bold text-amber-600 dark:text-amber-400">
-                  ⚡ {t("onlyFewLeft") || `Only ${productDetails.active_promotion_item.remaining_stock_quantity} left in stock!`}
+                  ⚡ {t("onlyFewLeft") || `Only ${activePromo.remaining_stock_quantity} left in stock!`}
                 </span>
               )}
             </div>
@@ -83,9 +92,9 @@ const AdDetailCard = ({ productDetails, setProductDetails }) => {
               className="text-2xl sm:text-3xl text-primary font-bold break-all text-balance line-clamp-2"
               title={price}
             >
-              {productDetails?.active_promotion_item?.formatted_promotional_price || price}
+              {promotionalPrice || price}
             </h2>
-            {productDetails?.active_promotion_item && (
+            {activePromo && (
               <span className="text-lg font-medium line-through text-muted-foreground">
                 {price}
               </span>

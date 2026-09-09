@@ -901,5 +901,13 @@
   "checkVerificationStatus": "Check Verification Status",
   "resubmitVerification": "Resubmit Verification",
   "verificationRejected": "Verification Request Rejected",
-  "pleaseUpdateDetailsAndResubmit": "Please update your documents and details and resubmit."
+  "pleaseUpdateDetailsAndResubmit": "Please update your documents and details and resubmit.",
+  "adAlreadySubmittedToPromotion": "This advertisement is already submitted to this promotion.",
+  "adAlreadySubmittedNotice": "This advertisement is already submitted to this promotion. You can update the promotional price and stock to replace the current offer.",
+  "replacePromotionOffer": "Update / Replace Promotional Offer",
+  "replacePromotion": "Replace Offer",
+  "promotionalOfferUpdated": "Promotional offer updated successfully!",
+  "boostCurrentlyActive": "Currently Active",
+  "boostActiveNotice": "This boost is currently active on this advertisement. Promoting again will extend or replace the active boost duration.",
+  "extendOrReplaceBoost": "Extend / Replace Boost"
 }

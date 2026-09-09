@@ -49,6 +49,13 @@ const MyAdsListingDetailCard = ({ productDetails }) => {
     ? productDetails?.formatted_salary_range
     : productDetails?.formatted_price;
 
+  const activePromo =
+    productDetails?.active_promotion_item ||
+    productDetails?.active_promotions?.sales?.[0];
+  const promotionalPrice =
+    activePromo?.formatted_promotional_price ||
+    (activePromo?.promotional_price ? `${activePromo.promotional_price}` : null);
+
   const deleteAd = async () => {
     try {
       setIsDeletingAccount(true);
@@ -89,13 +96,35 @@ const MyAdsListingDetailCard = ({ productDetails }) => {
               />
             )}
           </div>
+          {/* Promotion / Sale Badge */}
+          {activePromo && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-white bg-destructive shadow-xs">
+                🔥 {activePromo.discount_type === "percentage" || activePromo.discount_percentage
+                  ? `${activePromo.discount_percentage || activePromo.discount_value}% OFF`
+                  : `SAVE ${activePromo.discount_value}`} - {t("specialOffer") || "SALE"}
+              </span>
+              {activePromo.remaining_stock_quantity <= 5 && activePromo.remaining_stock_quantity > 0 && (
+                <span className="text-xs font-bold text-amber-600 dark:text-amber-400">
+                  ⚡ {t("onlyFewLeft") || `Only ${activePromo.remaining_stock_quantity} left in stock!`}
+                </span>
+              )}
+            </div>
+          )}
           <div className="flex justify-between items-end w-full">
-            <h2
-              className="text-primary text-3xl font-bold break-all text-balance line-clamp-2"
-              title={price}
-            >
-              {price}
-            </h2>
+            <div className="flex items-baseline gap-3 flex-wrap">
+              <h2
+                className="text-primary text-3xl font-bold break-all text-balance line-clamp-2"
+                title={price}
+              >
+                {promotionalPrice || price}
+              </h2>
+              {activePromo && (
+                <span className="text-lg font-medium line-through text-muted-foreground">
+                  {price}
+                </span>
+              )}
+            </div>
             <p className="text-sm text-muted-foreground whitespace-nowrap">
               {t("adId")} #{productDetails?.id}
             </p>

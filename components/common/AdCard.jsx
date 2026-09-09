@@ -18,6 +18,15 @@ const AdCard = ({ item, handleLike }) => {
   const price = item?.formatted_price || item?.formatted_salary_range;
   const isHidePrice = !price;
 
+  const activePromo =
+    item?.active_promotion_item ||
+    item?.active_promotions?.sales?.[0];
+  const promotionalPrice =
+    activePromo?.formatted_promotional_price ||
+    (activePromo?.promotional_price
+      ? `${item?.currency?.symbol || ""}${activePromo.promotional_price}`
+      : null);
+
   const productLink =
     item?.is_my_listing
       ? `/my-listing/${item?.slug}`
@@ -54,22 +63,28 @@ const AdCard = ({ item, handleLike }) => {
           className="w-full aspect-square rounded object-cover"
           alt={item?.translation?.name || "Product"}
         />
-        {item?.is_feature && (
+        {activePromo ? (
+          <div className="flex items-center gap-1 ltr:rounded-tl rtl:rounded-tr py-0.5 px-1.5 bg-destructive text-white absolute top-0 ltr:left-0 rtl:right-0 z-10 shadow-xs">
+            <p className="text-white text-[10px] sm:text-xs font-bold uppercase tracking-tight">
+              🔥 {activePromo.discount_type === "percentage" || activePromo.discount_percentage
+                ? `${activePromo.discount_percentage || activePromo.discount_value}% OFF`
+                : `SAVE ${activePromo.discount_value}`}
+            </p>
+          </div>
+        ) : item?.is_feature ? (
           <div className="flex items-center gap-1 ltr:rounded-tl rtl:rounded-tr py-0.5 px-1 bg-primary absolute top-0 ltr:left-0 rtl:right-0 z-10">
             <SealCheckIcon size={16} color="white" weight="bold" />
             <p className="text-white text-xs sm:text-sm">{t("featured")}</p>
           </div>
-        )}
-        {item?.is_spotlight && !item?.is_feature && (
+        ) : item?.is_spotlight ? (
           <div className="flex items-center gap-1 ltr:rounded-tl rtl:rounded-tr py-0.5 px-1.5 bg-gradient-to-r from-amber-500 to-orange-500 absolute top-0 ltr:left-0 rtl:right-0 z-10">
             <p className="text-white text-xs font-bold uppercase tracking-wider">★ {t("spotlight") || "Spotlight"}</p>
           </div>
-        )}
-        {item?.is_top_ad && !item?.is_spotlight && !item?.is_feature && (
+        ) : item?.is_top_ad ? (
           <div className="flex items-center gap-1 ltr:rounded-tl rtl:rounded-tr py-0.5 px-1.5 bg-indigo-600 absolute top-0 ltr:left-0 rtl:right-0 z-10">
             <p className="text-white text-xs font-bold uppercase tracking-wider">▲ {t("topAd") || "Top"}</p>
           </div>
-        )}
+        ) : null}
         <div
           onClick={handleLikeItem}
           className="absolute size-6 sm:size-9 ltr:right-2 rtl:left-2 top-2 bg-white rounded-full flex items-center justify-center text-primary"
@@ -86,12 +101,19 @@ const AdCard = ({ item, handleLike }) => {
             {item?.translation?.name}
           </p>
         ) : (
-          <p
-            className="text-sm sm:text-lg font-bold break-all text-balance line-clamp-2"
-            title={price}
-          >
-            {price}
-          </p>
+          <div className="flex items-baseline gap-1.5 flex-wrap">
+            <p
+              className="text-sm sm:text-lg font-bold text-primary break-all text-balance line-clamp-1"
+              title={promotionalPrice || price}
+            >
+              {promotionalPrice || price}
+            </p>
+            {activePromo && (
+              <span className="text-xs sm:text-sm line-through text-muted-foreground">
+                {price}
+              </span>
+            )}
+          </div>
         )}
 
         <p className="text-xs sm:text-sm opacity-65 whitespace-nowrap" suppressHydrationWarning>

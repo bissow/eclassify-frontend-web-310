@@ -425,13 +425,18 @@ export default function MyPromotions() {
               >
                 {/* Product Info & Thumb */}
                 <div className="flex items-center gap-3.5 min-w-0 flex-1">
-                  <CustomImage
-                    src={record.item_image}
-                    alt={record.item_name || "item"}
-                    width={64}
-                    height={64}
-                    className="w-16 h-16 rounded-xl object-cover shrink-0 bg-muted"
-                  />
+                  <CustomLink
+                    href={`/ad-details/${record.item_slug || record.item_id}`}
+                    className="shrink-0 transition-opacity hover:opacity-85"
+                  >
+                    <CustomImage
+                      src={record.item_image}
+                      alt={record.item_name || "item"}
+                      width={64}
+                      height={64}
+                      className="w-16 h-16 rounded-xl object-cover shrink-0 bg-muted"
+                    />
+                  </CustomLink>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span
@@ -481,7 +486,7 @@ export default function MyPromotions() {
                     </div>
 
                     <CustomLink
-                      href={`/ad-details/${record.item_slug}`}
+                      href={`/ad-details/${record.item_slug || record.item_id}`}
                       className="font-bold text-sm text-foreground hover:text-primary transition-colors truncate block mt-1"
                     >
                       {record.item_name}

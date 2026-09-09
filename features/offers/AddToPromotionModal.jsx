@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { FireIcon, TagIcon, PercentIcon, ShieldWarningIcon, PackageIcon } from "@phosphor-icons/react";
+import { FireIcon, TagIcon, PercentIcon, ShieldWarningIcon, PackageIcon, InfoIcon } from "@phosphor-icons/react";
 import { formatPriceAbbreviated } from "@/lib/format";
 import { useSelector } from "react-redux";
 import { settingsData } from "@/store/slices/settingSlice";
@@ -25,6 +25,7 @@ export default function AddToPromotionModal({ isOpen, setIsOpen, item, onSuccess
   const settings = useSelector(settingsData);
 
   const [promotions, setPromotions] = useState([]);
+  const [alreadySubmittedIds, setAlreadySubmittedIds] = useState([]);
   const [eligibilityData, setEligibilityData] = useState(null);
   const [selectedPromoId, setSelectedPromoId] = useState("");
   const [discountType, setDiscountType] = useState("percentage");
@@ -40,8 +41,10 @@ export default function AddToPromotionModal({ isOpen, setIsOpen, item, onSuccess
     const fetchPromos = async () => {
       try {
         setIsLoading(true);
-        const res = await sellerPromotionsApi.getAvailablePromotions();
+        const res = await sellerPromotionsApi.getAvailablePromotions({ item_id: item?.id });
         setEligibilityData(res?.data?.data || null);
+        const submitted = (res?.data?.data?.already_submitted_promotion_ids || []).map((id) => String(id));
+        setAlreadySubmittedIds(submitted);
         const promoList = extractArray(res, "promotions");
         setPromotions(promoList);
         if (promoList.length > 0) {
@@ -56,7 +59,7 @@ export default function AddToPromotionModal({ isOpen, setIsOpen, item, onSuccess
       }
     };
     fetchPromos();
-  }, [isOpen]);
+  }, [isOpen, item?.id]);
 
   const safePromotions = Array.isArray(promotions) ? promotions : [];
   const selectedPromotion = safePromotions.find((p) => String(p.id) === String(selectedPromoId));
@@ -69,6 +72,8 @@ export default function AddToPromotionModal({ isOpen, setIsOpen, item, onSuccess
     }
     return Math.max(0, originalPrice - val).toFixed(2);
   };
+
+  const isAlreadySubmitted = alreadySubmittedIds.includes(String(selectedPromoId));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,10 +94,16 @@ export default function AddToPromotionModal({ isOpen, setIsOpen, item, onSuccess
         discount_type: discountType,
         discount_value: discountValue,
         stock_quantity: stockQuantity,
+        replace: isAlreadySubmitted ? 1 : 0,
       });
 
       if (res?.data?.error === false) {
-        toast.success(res?.data?.message || t("itemAddedToPromotion") || "Item submitted to promotion!");
+        toast.success(
+          res?.data?.message ||
+            (isAlreadySubmitted
+              ? (t("promotionalOfferUpdated") || "Promotional offer updated successfully!")
+              : (t("itemAddedToPromotion") || "Item submitted to promotion!"))
+        );
         setIsOpen(false);
         if (onSuccess) onSuccess();
       } else {
@@ -107,7 +118,7 @@ export default function AddToPromotionModal({ isOpen, setIsOpen, item, onSuccess
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle className="text-xl font-bold flex items-center gap-2">
@@ -212,6 +223,16 @@ export default function AddToPromotionModal({ isOpen, setIsOpen, item, onSuccess
                   {t("noActivePromotionsAvailable") || "There are no active promotions or sales open for seller submissions at this moment."}
                 </div>
               )}
+
+              {isAlreadySubmitted && (
+                <div className="p-3 rounded-xl border border-amber-500/30 bg-amber-500/10 flex items-start gap-2 text-xs text-foreground mt-2.5">
+                  <InfoIcon size={18} weight="bold" className="text-amber-500 shrink-0 mt-0.5" />
+                  <span>
+                    {t("adAlreadySubmittedNotice") ||
+                      "This advertisement is already submitted to this promotion. You can update the promotional price and stock to replace the current offer."}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Price Preview Card */}
@@ -292,10 +313,14 @@ export default function AddToPromotionModal({ isOpen, setIsOpen, item, onSuccess
                 isSubmitting ||
                 safePromotions.length === 0 ||
                 eligibilityData?.requires_verification ||
-                eligibilityData?.requires_package
+                (eligibilityData?.requires_package && !isAlreadySubmitted)
               }
             >
-              {isSubmitting ? (t("submitting") || "Submitting...") : (t("submitToSale") || "Submit to Sale")}
+              {isSubmitting
+                ? (t("submitting") || "Submitting...")
+                : isAlreadySubmitted
+                ? (t("replacePromotionOffer") || "Update / Replace Promotion")
+                : (t("submitToSale") || "Submit to Sale")}
             </Button>
           </DialogFooter>
         </form>

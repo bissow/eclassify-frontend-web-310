@@ -24,6 +24,15 @@ const AdHorizontalCard = ({ item, handleLike }) => {
   const price = item?.formatted_price || item?.formatted_salary_range;
   const isHidePrice = !price;
 
+  const activePromo =
+    item?.active_promotion_item ||
+    item?.active_promotions?.sales?.[0];
+  const promotionalPrice =
+    activePromo?.formatted_promotional_price ||
+    (activePromo?.promotional_price
+      ? `${item?.currency?.symbol || ""}${activePromo.promotional_price}`
+      : null);
+
   const toggleLike = useDebouncedToggle();
 
   const handleLikeItem = (e) => {
@@ -56,12 +65,28 @@ const AdHorizontalCard = ({ item, handleLike }) => {
       />
       <div className="flex flex-col gap-1 sm:gap-2 justify-between flex-1 relative min-w-0">
         <div className="flex items-center gap-1">
-          {item?.is_feature && (
+          {activePromo ? (
+            <div className="flex items-center gap-1 rounded-tl-md py-0.5 px-1.5 bg-destructive text-white w-fit mb-1 shadow-xs">
+              <p className="text-white text-[10px] sm:text-xs font-bold uppercase tracking-tight">
+                🔥 {activePromo.discount_type === "percentage" || activePromo.discount_percentage
+                  ? `${activePromo.discount_percentage || activePromo.discount_value}% OFF`
+                  : `SAVE ${activePromo.discount_value}`}
+              </p>
+            </div>
+          ) : item?.is_feature ? (
             <div className="flex items-center gap-1 rounded-tl-md py-0.5 px-1 bg-primary w-fit mb-1">
               <SealCheckIcon size={16} color="white" weight="bold" />
               <p className="text-white text-xs sm:text-sm">{t("featured")}</p>
             </div>
-          )}
+          ) : item?.is_spotlight ? (
+            <div className="flex items-center gap-1 rounded-tl-md py-0.5 px-1.5 bg-gradient-to-r from-amber-500 to-orange-500 w-fit mb-1">
+              <p className="text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider">★ {t("spotlight") || "Spotlight"}</p>
+            </div>
+          ) : item?.is_top_ad ? (
+            <div className="flex items-center gap-1 rounded-tl-md py-0.5 px-1.5 bg-indigo-600 w-fit mb-1">
+              <p className="text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider">▲ {t("topAd") || "Top"}</p>
+            </div>
+          ) : null}
           <div
             onClick={handleLikeItem}
             className="ms-auto size-6 sm:size-9 bg-white rounded-full flex items-center justify-center text-primary"
@@ -74,9 +99,16 @@ const AdHorizontalCard = ({ item, handleLike }) => {
 
         <div className="flex flex-col gap-1 sm:gap-2">
           {!isHidePrice && (
-            <p className="text-base sm:text-xl font-bold truncate" title={price}>
-              {price}
-            </p>
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <p className="text-base sm:text-xl font-bold text-primary truncate" title={promotionalPrice || price}>
+                {promotionalPrice || price}
+              </p>
+              {activePromo && (
+                <span className="text-xs sm:text-sm line-through text-muted-foreground">
+                  {price}
+                </span>
+              )}
+            </div>
           )}
 
           <p
