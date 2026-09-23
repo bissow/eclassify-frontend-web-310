@@ -21,7 +21,8 @@ import FollowersFollowingModal from "@/components/common/FollowersFollowingModal
 import loyaltyCoinImg from '@/public/assets/loyalty-coin.png'
 import CustomImage from "@/components/common/CustomImage";
 import UserAvatar from "@/components/common/UserAvatar";
-import { CameraPlusIcon, CircleNotchIcon, ShieldCheckIcon } from "@phosphor-icons/react";
+import { CameraPlusIcon, CircleNotchIcon, ShieldCheckIcon, StorefrontIcon } from "@phosphor-icons/react";
+import StoreSetupModal from "@/features/stores/StoreSetupModal";
 
 const Profile = () => {
   const UserData = useSelector(userSignUpData);
@@ -50,6 +51,7 @@ const Profile = () => {
   const [RejectionReason, setRejectionReason] = useState("");
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [modalInitialTab, setModalInitialTab] = useState("followers");
+  const [showStoreModal, setShowStoreModal] = useState(false);
   const { refer_earn_enabled } = useSelector(getReferralSettings);
   const { t } = useTranslation();
 
@@ -428,6 +430,32 @@ const Profile = () => {
           />
           {errors.address && <span className="text-destructive text-sm">{errors.address}</span>}
         </div>
+      {/* Store / Shop Management CTA Card */}
+      <div className="md:border md:p-5 md:rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-muted/40 border-dashed border-primary/40">
+        <div className="flex items-center gap-3.5">
+          <div className="rounded-xl bg-primary/10 p-3 text-primary shrink-0">
+            <StorefrontIcon className="h-6 w-6" weight="fill" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-foreground">
+              {UserData?.has_store ? (t("manageStore") || "Manage Store / Shop") : (t("wantToSetupStore") || "Want to setup Store / Shop?")}
+            </h2>
+            <p className="text-xs text-muted-foreground">
+              {UserData?.has_store
+                ? (t("manageStoreDesc") || "Update your business profile, shop address, cover banner, and operating hours.")
+                : (t("setupStoreDesc") || "Create your dedicated shop branding, add store location, working hours, and get verified.")}
+            </p>
+          </div>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => setShowStoreModal(true)}
+          className="shrink-0 gap-1.5 border-primary text-primary hover:bg-primary hover:text-white"
+        >
+          <StorefrontIcon className="h-4 w-4" />
+          {UserData?.has_store ? (t("editStore") || "Edit Store Setup") : (t("setupStoreCta") || "Setup Store Now")}
+        </Button>
       </div>
 
       <Button disabled={isLoading} className="ltr:ml-auto rtl:mr-auto w-fit">
@@ -439,6 +467,15 @@ const Profile = () => {
           :
           t("saveChanges")}
       </Button>
+
+      {/* Store Setup Modal */}
+      <StoreSetupModal
+        isOpen={showStoreModal}
+        onClose={() => setShowStoreModal(false)}
+        onSuccess={() => {
+          getUserDetails();
+        }}
+      />
     </form>
   );
 };

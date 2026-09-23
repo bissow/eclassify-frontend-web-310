@@ -12,7 +12,7 @@ import { useState } from "react";
 import LanguageDropdown from "@/components/common/LanguageDropdown";
 import { setIsLoginOpen } from "@/store/slices/globalStateSlice";
 import CustomImage from "@/components/common/CustomImage";
-import { CircleNotchIcon, ListIcon, MapPinIcon, PlusCircleIcon, BellIcon, ChatsIcon, CurrencyCircleDollarIcon, ShoppingBagOpenIcon, HeartIcon, ReceiptIcon, StarIcon, BriefcaseIcon, SignOutIcon, TrashSimpleIcon } from "@phosphor-icons/react";
+import { CircleNotchIcon, ListIcon, MapPinIcon, PlusCircleIcon, BellIcon, ChatsIcon, CurrencyCircleDollarIcon, ShoppingBagOpenIcon, HeartIcon, ReceiptIcon, StarIcon, BriefcaseIcon, SignOutIcon, TrashSimpleIcon, StorefrontIcon } from "@phosphor-icons/react";
 import { useSelector } from "react-redux";
 import { userSignUpData, getUnreadChatCounts } from "@/store/slices/authSlice";
 import CustomLink from "@/components/common/CustomLink";
@@ -70,6 +70,14 @@ const HomeMobileMenu = ({
   // All user links
   const navItems = (
     <div className="flex flex-col px-4 pb-4">
+      <CustomLink
+        href="/stores"
+        className="flex items-center gap-1 py-4 text-primary font-medium"
+        onClick={() => setIsOpen(false)}
+      >
+        <StorefrontIcon size={24} weight="bold" />
+        <span>{t("stores") || "Stores & Nearby Sellers"}</span>
+      </CustomLink>
       <CustomLink
         href="/notifications"
         className="flex items-center gap-1 py-4"
