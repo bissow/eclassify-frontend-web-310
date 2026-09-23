@@ -5,11 +5,12 @@ import { useTranslation } from "@/lang/useTranslation";
 import CustomImage from "@/components/common/CustomImage";
 import { Badge } from "@/components/ui/badge";
 import { memo, useCallback, useMemo, useState } from "react";
-import { PlayCircleIcon, UploadSimpleIcon, XIcon } from "@phosphor-icons/react";
+import { PlayCircleIcon, UploadSimpleIcon, XIcon, PencilSimpleIcon } from "@phosphor-icons/react";
 import { useSelector } from "react-redux";
 import { getMaxGalleryImages, getReelMaxSize } from "@/store/slices/settingSlice";
 import { useSearchParams } from "next/navigation";
 import ImageGalleryModal from "@/features/listing/shared/ImageGalleryModal";
+import ImageEditorModal from "@/features/listing/shared/ImageEditorModal";
 import useFileDropzone from "@/features/listing/hooks/useFileDropzone";
 import { IMAGE_ACCEPT, MAX_VIDEO_DIMENSION, VIDEO_ACCEPT } from "@/lib/constants";
 import { getVideoDimensions, processVideo } from "@/features/listing/lib/video";
@@ -41,10 +42,10 @@ const DropZoneContent = ({ isDragAccept }) => {
   );
 };
 
-const ImageCard = memo(({ fileObj, index, onRemove, extraCount, onOpenModal }) => {
+const ImageCard = memo(({ fileObj, index, onRemove, onEdit, extraCount, onOpenModal }) => {
   const { t } = useTranslation();
   return (
-  <div className="relative rounded-2xl overflow-hidden aspect-square w-full">
+  <div className="relative rounded-2xl overflow-hidden aspect-square w-full group">
     <CustomImage
       width={145}
       height={145}
@@ -62,12 +63,32 @@ const ImageCard = memo(({ fileObj, index, onRemove, extraCount, onOpenModal }) =
         </span>
       </div>
     ) : (
-      <button
-        className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
-        onClick={() => onRemove(index)}
-      >
-        <XIcon size={18} color="black" />
-      </button>
+      <div className="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+        {onEdit && (
+          <button
+            type="button"
+            className="bg-white/90 dark:bg-zinc-800/90 hover:bg-white dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-100 rounded-full p-1.5 shadow transition-all hover:scale-105 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(index);
+            }}
+            title={t("editImage") || "Edit Image"}
+          >
+            <PencilSimpleIcon size={16} />
+          </button>
+        )}
+        <button
+          type="button"
+          className="bg-white/90 dark:bg-zinc-800/90 hover:bg-white dark:hover:bg-zinc-700 text-destructive rounded-full p-1.5 shadow transition-all hover:scale-105 cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove(index);
+          }}
+          title={t("delete") || "Delete"}
+        >
+          <XIcon size={16} />
+        </button>
+      </div>
     )}
     {index === 0 && (
       <Badge className="absolute bottom-2 left-2 bg-primary text-white">
@@ -233,6 +254,23 @@ const ImageUpload = ({ otherImages, setOtherImages, videoData, setVideoData, onN
   const [galleryModalOpen, setGalleryModalOpen] = useState(false);
   const [editVideoModalOpen, setEditVideoModalOpen] = useState(false);
   const [videoLoading, setVideoLoading] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
+
+  const handleSaveEditedImage = useCallback((newFile, newPreviewUrl) => {
+    if (editingIndex === null) return;
+    setOtherImages((prev) => {
+      const updated = [...prev];
+      if (updated[editingIndex]) {
+        URL.revokeObjectURL(updated[editingIndex].preview);
+        updated[editingIndex] = {
+          file: newFile,
+          preview: newPreviewUrl,
+        };
+      }
+      return updated;
+    });
+    setEditingIndex(null);
+  }, [editingIndex, setOtherImages]);
 
   const handleVideoSave = useCallback(({ thumbnail, thumbnailTime, trimStart, trimEnd, trimmedFile }) => {
     setVideoData((prev) => prev ? { ...prev, thumbnail, thumbnailTime, trimStart, trimEnd, trimmedFile } : prev);
@@ -331,11 +369,12 @@ const ImageUpload = ({ otherImages, setOtherImages, videoData, setVideoData, onN
           fileObj={fileObj}
           index={index}
           onRemove={removeImage}
+          onEdit={setEditingIndex}
           extraCount={index === maxVisible - 1 ? extraCount : 0}
           onOpenModal={() => setGalleryModalOpen(true)}
         />
       )),
-    [visibleImages, removeImage, extraCount, maxVisible]
+    [visibleImages, removeImage, extraCount, maxVisible, setEditingIndex]
   );
 
   const imageGridClass = cn(
@@ -431,9 +470,22 @@ const ImageUpload = ({ otherImages, setOtherImages, videoData, setVideoData, onN
         onClose={setGalleryModalOpen}
         otherImages={otherImages}
         onRemove={removeImage}
+        onEdit={(index) => {
+          setGalleryModalOpen(false);
+          setEditingIndex(index);
+        }}
         onAccepted={onImagesAccepted}
         maxFiles={maxGalleryImages}
       />
+
+      {editingIndex !== null && otherImages[editingIndex] && (
+        <ImageEditorModal
+          open={editingIndex !== null}
+          onClose={() => setEditingIndex(null)}
+          fileObj={otherImages[editingIndex]}
+          onSave={handleSaveEditedImage}
+        />
+      )}
 
       {videoData && (
         <EditVideoModal

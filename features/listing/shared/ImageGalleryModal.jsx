@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lang/useTranslation";
 import CustomImage from "@/components/common/CustomImage";
 import { Badge } from "@/components/ui/badge";
-import { UploadSimpleIcon, XIcon } from "@phosphor-icons/react";
+import { UploadSimpleIcon, XIcon, PencilSimpleIcon } from "@phosphor-icons/react";
 import {
   Dialog,
   DialogContent,
@@ -13,10 +13,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-const ModalImageCard = memo(({ fileObj, index, onRemove }) => {
+const ModalImageCard = memo(({ fileObj, index, onRemove, onEdit }) => {
   const { t } = useTranslation();
   return (
-  <div className="relative rounded-2xl overflow-hidden aspect-square w-full">
+  <div className="relative rounded-2xl overflow-hidden aspect-square w-full group">
     <CustomImage
       width={145}
       height={145}
@@ -24,12 +24,26 @@ const ModalImageCard = memo(({ fileObj, index, onRemove }) => {
       src={fileObj.preview}
       alt={fileObj.file.name}
     />
-    <button
-      className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
-      onClick={() => onRemove(index)}
-    >
-      <XIcon size={18} color="black" />
-    </button>
+    <div className="absolute top-2 right-2 flex items-center gap-1.5 z-10">
+      {onEdit && (
+        <button
+          type="button"
+          className="bg-white/90 dark:bg-zinc-800/90 hover:bg-white dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-100 rounded-full p-1.5 shadow transition-all hover:scale-105 cursor-pointer"
+          onClick={() => onEdit(index)}
+          title={t("editImage") || "Edit Image"}
+        >
+          <PencilSimpleIcon size={16} />
+        </button>
+      )}
+      <button
+        type="button"
+        className="bg-white/90 dark:bg-zinc-800/90 hover:bg-white dark:hover:bg-zinc-700 text-destructive rounded-full p-1.5 shadow transition-all hover:scale-105 cursor-pointer"
+        onClick={() => onRemove(index)}
+        title={t("delete") || "Delete"}
+      >
+        <XIcon size={16} />
+      </button>
+    </div>
     {index === 0 && (
       <Badge className="absolute bottom-2 left-2 bg-primary text-white">
         {t("cover")}
@@ -45,6 +59,7 @@ const ImageGalleryModal = ({
   onClose,
   otherImages,
   onRemove,
+  onEdit,
   onAccepted,
   maxFiles,
 }) => {
@@ -69,6 +84,7 @@ const ImageGalleryModal = ({
               fileObj={fileObj}
               index={index}
               onRemove={onRemove}
+              onEdit={onEdit}
             />
           ))}
           <div
