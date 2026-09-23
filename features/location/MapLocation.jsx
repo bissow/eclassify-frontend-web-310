@@ -36,6 +36,7 @@ const MapLocation = ({
   setIsMapLocation,
   IsPaidApi,
   shouldSaveToRedux = true,
+  onSelectLocation,
 }) => {
   const searchParams = useSearchParams();
   const globalRadius = getKmRangeClient();
@@ -112,6 +113,12 @@ const MapLocation = ({
       return;
     }
     const dataWithRange = { ...selectedCity, km_range: KmRange };
+    if (onSelectLocation) {
+      onSelectLocation(selectedCity);
+      toast.success(t("locationSaved"));
+      OnHide();
+      return;
+    }
     if (shouldSaveToRedux) {
       saveKilometerRange(KmRange);
       saveCity(selectedCity);

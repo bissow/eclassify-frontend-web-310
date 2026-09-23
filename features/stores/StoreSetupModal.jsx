@@ -331,29 +331,23 @@ const StoreSetupModal = ({ isOpen, onClose, onSuccess }) => {
 
       {/* Central Location Modal for Store */}
       <LocationModal
-        IsOpen={isLocationModalOpen}
-        OnHide={() => {
-          setIsLocationModalOpen(false);
-          // Sync location from cookie
-          if (typeof document !== "undefined") {
-            const match = document.cookie.match(new RegExp(`(?:^|;\\s*)eclassify_city_data=([^;]*)`));
-            if (match) {
-              try {
-                const parsed = JSON.parse(decodeURIComponent(match[1]));
-                setFormData((prev) => ({
-                  ...prev,
-                  latitude: parsed.lat || "",
-                  longitude: parsed.long || "",
-                  city: parsed.city || "",
-                  state: parsed.state || "",
-                  country: parsed.country || "",
-                  area_id: parsed.areaId || "",
-                }));
-                setSelectedLocationDisplay([parsed.area, parsed.city, parsed.state, parsed.country].filter(Boolean).join(", "));
-              } catch (err) {
-                console.error(err);
-              }
-            }
+        IsLocationModalOpen={isLocationModalOpen}
+        setIsLocationModalOpen={setIsLocationModalOpen}
+        shouldSaveToRedux={false}
+        onSelectLocation={(locData) => {
+          if (locData) {
+            setFormData((prev) => ({
+              ...prev,
+              latitude: locData.lat || "",
+              longitude: locData.long || "",
+              city: locData.city || "",
+              state: locData.state || "",
+              country: locData.country || "",
+              area_id: locData.areaId || "",
+            }));
+            const displayStr = locData.formattedAddress ||
+              [locData.area, locData.city, locData.state, locData.country].filter(Boolean).join(", ");
+            setSelectedLocationDisplay(displayStr);
           }
         }}
       />

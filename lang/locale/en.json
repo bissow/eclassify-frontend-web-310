@@ -909,5 +909,10 @@
   "promotionalOfferUpdated": "Promotional offer updated successfully!",
   "boostCurrentlyActive": "Currently Active",
   "boostActiveNotice": "This boost is currently active on this advertisement. Promoting again will extend or replace the active boost duration.",
-  "extendOrReplaceBoost": "Extend / Replace Boost"
+  "extendOrReplaceBoost": "Extend / Replace Boost",
+  "sellerQrStandee": "Store QR Standee",
+  "sellerQrStandeeTitle": "Standee Studio & Customization",
+  "sellerQrStandeeDesc": "Personalize your UPI acrylic standee flyer with custom brand colors, taglines, and dimensions.",
+  "locationMismatchNoticeTitle": "Location Notice: Out of Area Seller",
+  "locationMismatchNoticeDesc": "This seller is located in a different region. You can still freely explore items and contact them, but shipping or local pickup availability may vary."
 }

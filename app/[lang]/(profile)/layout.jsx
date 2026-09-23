@@ -23,6 +23,7 @@ const segmentLabelMap = {
   "user-subscription": "subscription",
   "refer-and-earn": "referAndEarn",
   "my-promotions": "promotionsAnalytics",
+  "seller-qr": "sellerQrStandee",
 };
 
 const ProfileLayout = ({ children }) => {

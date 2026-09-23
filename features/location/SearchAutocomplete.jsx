@@ -22,6 +22,7 @@ const SearchAutocomplete = ({
   OnHide,
   setSelectedLocation,
   shouldSaveToRedux = true,
+  onSelectLocation,
 }) => {
   const isSuggestionClick = useRef(false);
   const IsPaidApi = useSelector(getIsPaidApi);
@@ -153,6 +154,11 @@ const SearchAutocomplete = ({
       // Reset session token after place details request (session complete)
       sessionTokenRef.current = null;
       if (saveOnSuggestionClick) {
+        if (onSelectLocation) {
+          onSelectLocation(data);
+          OnHide?.();
+          return;
+        }
         if (shouldSaveToRedux) {
           saveCity(data);
           navigate('/');
@@ -178,6 +184,11 @@ const SearchAutocomplete = ({
       setSearch(suggestion?.description || "");
       setAutoState({ suggestions: [], loading: false, show: false });
       if (saveOnSuggestionClick) {
+        if (onSelectLocation) {
+          onSelectLocation(data);
+          OnHide?.();
+          return;
+        }
         if (shouldSaveToRedux) {
           saveCity(data);
           navigate('/')

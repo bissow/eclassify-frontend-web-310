@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { useMediaQuery } from "usehooks-ts";
 import UserAvatar from "@/components/common/UserAvatar";
 import { useNavigate } from "@/hooks/useNavigate";
-import { UserIcon, BellIcon, ChatsIcon, CurrencyCircleDollarIcon, ShoppingBagOpenIcon, HeartIcon, ReceiptIcon, StarIcon, BriefcaseIcon, SignOutIcon, CaretDownIcon, HandCoinsIcon, TrendUpIcon } from "@phosphor-icons/react";
+import { UserIcon, BellIcon, ChatsIcon, CurrencyCircleDollarIcon, ShoppingBagOpenIcon, HeartIcon, ReceiptIcon, StarIcon, BriefcaseIcon, SignOutIcon, CaretDownIcon, HandCoinsIcon, TrendUpIcon, QrCodeIcon } from "@phosphor-icons/react";
 import { getReferralSettings } from "@/store/slices/settingSlice";
 
 const ProfileDropdown = ({ IsLogout, setIsLogout }) => {
@@ -102,6 +102,14 @@ const ProfileDropdown = ({ IsLogout, setIsLogout }) => {
         >
           <TrendUpIcon size={16} weight="bold" />
           {t("promotionsAnalytics")}
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => navigate("/seller-qr")}
+        >
+          <QrCodeIcon size={16} weight="bold" />
+          {t("sellerQrStandee") || "Store QR Standee"}
         </DropdownMenuItem>
 
         <DropdownMenuItem

@@ -9,7 +9,12 @@ import { getIsPaidApi } from "@/store/slices/settingSlice";
 import { useUpdateLocationInUrl } from "@/hooks/useUpdateLocationInUrl";
 import { useMemo } from "react";
 
-const LocationModal = ({ IsLocationModalOpen, setIsLocationModalOpen, shouldSaveToRedux = true }) => {
+const LocationModal = ({
+  IsLocationModalOpen,
+  setIsLocationModalOpen,
+  shouldSaveToRedux = true,
+  onSelectLocation,
+}) => {
   const { getParamsFromUrl } = useUpdateLocationInUrl();
   const IsPaidApi = useSelector(getIsPaidApi);
   const [IsMapLocation, setIsMapLocation] = useState(IsPaidApi);
@@ -49,6 +54,7 @@ const LocationModal = ({ IsLocationModalOpen, setIsLocationModalOpen, shouldSave
             setIsMapLocation={setIsMapLocation}
             IsPaidApi={IsPaidApi}
             shouldSaveToRedux={shouldSaveToRedux}
+            onSelectLocation={onSelectLocation}
           />
         ) : (
           <LocationSelector
@@ -58,6 +64,7 @@ const LocationModal = ({ IsLocationModalOpen, setIsLocationModalOpen, shouldSave
             IsMapLocation={IsMapLocation}
             setIsMapLocation={setIsMapLocation}
             shouldSaveToRedux={shouldSaveToRedux}
+            onSelectLocation={onSelectLocation}
           />
         )}
       </DialogContent>

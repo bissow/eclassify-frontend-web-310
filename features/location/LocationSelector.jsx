@@ -23,7 +23,7 @@ import { getMinRange } from "@/store/slices/settingSlice";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-const LocationSelector = ({ OnHide, selectedCity, setSelectedCity, setIsMapLocation, shouldSaveToRedux = true }) => {
+const LocationSelector = ({ OnHide, selectedCity, setSelectedCity, setIsMapLocation, shouldSaveToRedux = true, onSelectLocation }) => {
 
   const searchParams = useSearchParams();
   const { navigate } = useNavigate();
@@ -175,6 +175,12 @@ const LocationSelector = ({ OnHide, selectedCity, setSelectedCity, setIsMapLocat
               break;
           }
 
+          if (onSelectLocation) {
+            onSelectLocation(locationDataToSave);
+            OnHide();
+            return;
+          }
+
           // ✅ Save formattedAddress in redux
           if (shouldSaveToRedux) {
             saveCity(locationDataToSave);
@@ -266,6 +272,11 @@ const LocationSelector = ({ OnHide, selectedCity, setSelectedCity, setIsMapLocat
             .filter(Boolean)
             .join(", "),
         };
+        if (onSelectLocation) {
+          onSelectLocation(locationDataToSave);
+          OnHide();
+          return;
+        }
         if (shouldSaveToRedux) {
           saveCity(locationDataToSave);
           handleSubmitLocation();
@@ -409,6 +420,11 @@ const LocationSelector = ({ OnHide, selectedCity, setSelectedCity, setIsMapLocat
         };
         break;
     }
+    if (onSelectLocation) {
+      onSelectLocation(locationDataToSave || {});
+      OnHide();
+      return;
+    }
     // ✅ Update URL centrally
     // ✅ Save only label in redux
     if (shouldSaveToRedux) {
@@ -483,7 +499,7 @@ const LocationSelector = ({ OnHide, selectedCity, setSelectedCity, setIsMapLocat
 
       {currentView === "countries" ? (
         <div className="flex items-center gap-2 border rounded-sm relative">
-          <SearchAutocomplete saveOnSuggestionClick={true} OnHide={OnHide} shouldSaveToRedux={shouldSaveToRedux} />
+          <SearchAutocomplete saveOnSuggestionClick={true} OnHide={OnHide} shouldSaveToRedux={shouldSaveToRedux} onSelectLocation={onSelectLocation} />
         </div>
       ) : (
         <div className="flex items-center gap-2 border rounded-sm relative p-3 ltr:pl-9 rtl:pr-9">

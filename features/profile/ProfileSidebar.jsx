@@ -19,7 +19,7 @@ import {
   getDefaultLanguageCode
 } from "@/store/slices/settingSlice";
 // import { PiHandCoins } from "react-icons/pi";
-import { BellIcon, BriefcaseIcon, ChatsIcon, CurrencyCircleDollarIcon, FireIcon, HeartIcon, ReceiptIcon, ShoppingBagOpenIcon, SignOutIcon, StarIcon, TrashSimpleIcon, UserIcon } from "@phosphor-icons/react";
+import { BellIcon, BriefcaseIcon, ChatsIcon, CurrencyCircleDollarIcon, FireIcon, HeartIcon, QrCodeIcon, ReceiptIcon, ShoppingBagOpenIcon, SignOutIcon, StarIcon, TrashSimpleIcon, UserIcon } from "@phosphor-icons/react";
 
 const ProfileSidebar = () => {
   const { t } = useTranslation();
@@ -167,6 +167,14 @@ const ProfileSidebar = () => {
         >
           <FireIcon size={24} weight="bold" className="text-amber-500" />
           <span>{t("promotionsAnalytics") || "Promotions & Sales"}</span>
+        </CustomLink>
+        <CustomLink
+          href="/seller-qr"
+          className={`flex items-center gap-1 py-2 px-4 ${isActivePath("/seller-qr") ? "profileActiveTab" : ""
+            }`}
+        >
+          <QrCodeIcon size={24} weight="bold" />
+          <span>{t("sellerQrStandee") || "Store QR Standee"}</span>
         </CustomLink>
         <CustomLink
           href="/favorites"
