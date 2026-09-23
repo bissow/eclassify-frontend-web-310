@@ -6,7 +6,7 @@ const path = require('path');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const port = process.env.NODE_PORT || 8003
+const port = process.env.PORT || process.env.NODE_PORT || 8003;
 app.prepare().then(() => {
   createServer((req, res) => {
     const parsedUrl = parse(req.url, true);
