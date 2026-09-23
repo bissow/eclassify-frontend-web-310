@@ -1,0 +1,1099 @@
+{
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2022": true
+  },
+  "ignorePatterns": [
+    ".next/",
+    "node_modules/",
+    "public/"
+  ],
+  "rules": {
+    "no-undef": "error"
+  },
+  "overrides": [
+    {
+      "files": [
+        "hooks/**",
+        "lib/**",
+        "lang/**",
+        "store/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/**",
+                  "@/components/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: hooks/lib/lang/store are the lowest tier and must not import features/, components/ or app/."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "components/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: components/ is shared UI and must not import features/ or app/. Promote what you need into components/, or move the component into the feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/ad-details/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/ad-details may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/ads/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/ads may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/auth/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/auth may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/blogs/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/blogs may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/chat/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/chat may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/contact/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/contact may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/discovery/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/discovery may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/faq/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/faq may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/favorites/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/favorites may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/filter/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/filter may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/job-applications/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/job-applications may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/legal/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/legal may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/listing/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/listing may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/location/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/location may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/marketing/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/marketing may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/navigation/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/navigation may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/notifications/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/notifications may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/profile/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/profile may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/reels/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/reels may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/refer-and-earn/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/refer-and-earn may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/reviews/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/reviews may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/seller/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/seller may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/subscription/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/transactions/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/subscription may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/transactions/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/user-verification/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/transactions may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/user-verification/**"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@/features/ad-details/**",
+                  "@/features/ads/**",
+                  "@/features/blogs/**",
+                  "@/features/chat/**",
+                  "@/features/contact/**",
+                  "@/features/discovery/**",
+                  "@/features/faq/**",
+                  "@/features/favorites/**",
+                  "@/features/job-applications/**",
+                  "@/features/legal/**",
+                  "@/features/listing/**",
+                  "@/features/marketing/**",
+                  "@/features/navigation/**",
+                  "@/features/notifications/**",
+                  "@/features/profile/**",
+                  "@/features/reels/**",
+                  "@/features/refer-and-earn/**",
+                  "@/features/reviews/**",
+                  "@/features/seller/**",
+                  "@/features/subscription/**",
+                  "@/features/transactions/**",
+                  "@/app/**"
+                ],
+                "message": "Tier violation: features/user-verification may import only its own files, the platform features (auth, location, filter), and components/hooks/lib/lang/store. Promote shared code to components/ instead of importing a sibling feature."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

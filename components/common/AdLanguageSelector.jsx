@@ -1,0 +1,56 @@
+'use client';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useTranslation } from "@/lang/useTranslation";
+import { getIsRtl } from "@/store/slices/languageSlice";
+import { useSelector } from "react-redux";
+
+const AdLanguageSelector = ({
+  langId,
+  setLangId,
+  languages,
+  setTranslations,
+}) => {
+  const { t } = useTranslation();
+  const isRTL = useSelector(getIsRtl);
+
+  const handleLangChange = (newId) => {
+    setLangId(newId);
+    setTranslations((t) => ({
+      ...t,
+      [newId]: t[newId] || {},
+    }));
+  };
+
+  return (
+    <div className="flex items-center gap-2">
+      <p className="whitespace-nowrap text-sm font-medium hidden lg:block">
+        {t("selectLanguage")}
+      </p>
+      <Select value={langId} onValueChange={handleLangChange}>
+        <SelectTrigger className="gap-2">
+          <SelectValue placeholder="Select language" />
+        </SelectTrigger>
+        <SelectContent align={isRTL ? "start" : "end"}>
+          <SelectGroup>
+            {languages &&
+              languages.length > 0 &&
+              languages.map((lang) => (
+                <SelectItem key={lang.id} value={lang.id} dir={isRTL ? "rtl" : "ltr"} >
+                  {lang.name}
+                </SelectItem>
+              ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+};
+
+export default AdLanguageSelector;
