@@ -126,9 +126,10 @@ const AdDetails = ({
                 isOwner={isMyListing}
               />
 
-              {IsShowFeaturedAd && (
+              {isMyListing && productDetails?.status === "approved" && (
                 <MakeFeaturedAd
                   item_id={productDetails?.id}
+                  item={productDetails}
                   setProductDetails={setProductDetails}
                 />
               )}

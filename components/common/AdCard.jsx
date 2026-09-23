@@ -55,9 +55,19 @@ const AdCard = ({ item, handleLike }) => {
           alt={item?.translation?.name || "Product"}
         />
         {item?.is_feature && (
-          <div className="flex items-center gap-1 ltr:rounded-tl rtl:rounded-tr py-0.5 px-1 bg-primary absolute top-0 ltr:left-0 rtl:right-0">
+          <div className="flex items-center gap-1 ltr:rounded-tl rtl:rounded-tr py-0.5 px-1 bg-primary absolute top-0 ltr:left-0 rtl:right-0 z-10">
             <SealCheckIcon size={16} color="white" weight="bold" />
             <p className="text-white text-xs sm:text-sm">{t("featured")}</p>
+          </div>
+        )}
+        {item?.is_spotlight && !item?.is_feature && (
+          <div className="flex items-center gap-1 ltr:rounded-tl rtl:rounded-tr py-0.5 px-1.5 bg-gradient-to-r from-amber-500 to-orange-500 absolute top-0 ltr:left-0 rtl:right-0 z-10">
+            <p className="text-white text-xs font-bold uppercase tracking-wider">★ {t("spotlight") || "Spotlight"}</p>
+          </div>
+        )}
+        {item?.is_top_ad && !item?.is_spotlight && !item?.is_feature && (
+          <div className="flex items-center gap-1 ltr:rounded-tl rtl:rounded-tr py-0.5 px-1.5 bg-indigo-600 absolute top-0 ltr:left-0 rtl:right-0 z-10">
+            <p className="text-white text-xs font-bold uppercase tracking-wider">▲ {t("topAd") || "Top"}</p>
           </div>
         )}
         <div

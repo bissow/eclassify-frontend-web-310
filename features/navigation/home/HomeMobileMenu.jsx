@@ -11,14 +11,14 @@ import { useTranslation } from "@/lang/useTranslation";
 import { useState } from "react";
 import LanguageDropdown from "@/components/common/LanguageDropdown";
 import { setIsLoginOpen } from "@/store/slices/globalStateSlice";
-import CustomImage from "@/components/common/CustomImage";
-import { CircleNotchIcon, ListIcon, MapPinIcon, PlusCircleIcon, BellIcon, ChatsIcon, CurrencyCircleDollarIcon, ShoppingBagOpenIcon, HeartIcon, ReceiptIcon, StarIcon, BriefcaseIcon, SignOutIcon, TrashSimpleIcon, StorefrontIcon } from "@phosphor-icons/react";
+import { CircleNotchIcon, ListIcon, MapPinIcon, PlusCircleIcon, BellIcon, ChatsIcon, CurrencyCircleDollarIcon, ShoppingBagOpenIcon, HeartIcon, ReceiptIcon, StarIcon, BriefcaseIcon, SignOutIcon, TrashSimpleIcon, StorefrontIcon, FireIcon, TrendUpIcon } from "@phosphor-icons/react";
 import { useSelector } from "react-redux";
 import { userSignUpData, getUnreadChatCounts } from "@/store/slices/authSlice";
 import CustomLink from "@/components/common/CustomLink";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { settingsData } from "@/store/slices/settingSlice";
 import FilterTree from "@/features/filter/FilterTree";
+import CustomImage from "@/components/common/CustomImage";
 
 const HomeMobileMenu = ({
   setIsLocationModalOpen,
@@ -71,6 +71,14 @@ const HomeMobileMenu = ({
   const navItems = (
     <div className="flex flex-col px-4 pb-4">
       <CustomLink
+        href="/offers"
+        className="flex items-center gap-2 py-4 text-amber-500 font-bold"
+        onClick={() => setIsOpen(false)}
+      >
+        <FireIcon size={24} weight="fill" />
+        <span>{t("offerZone") || "Offers & Sales"}</span>
+      </CustomLink>
+      <CustomLink
         href="/stores"
         className="flex items-center gap-1 py-4 text-primary font-medium"
         onClick={() => setIsOpen(false)}
@@ -114,6 +122,14 @@ const HomeMobileMenu = ({
       >
         <ShoppingBagOpenIcon size={24} weight="bold" />
         <span>{t("myAds")}</span>
+      </CustomLink>
+      <CustomLink
+        href="/my-promotions"
+        className="flex items-center gap-1 py-4"
+        onClick={() => setIsOpen(false)}
+      >
+        <TrendUpIcon size={24} weight="bold" />
+        <span>{t("promotionsAnalytics") || "Promotions Analytics"}</span>
       </CustomLink>
       <CustomLink
         href="/favorites"

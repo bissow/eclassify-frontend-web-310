@@ -110,6 +110,50 @@ const BuyPackageCard = ({ pckg, handlePurchasePackage }) => {
                                     <span className="text-normal ">{t("allCategoriesIncluded")}</span>
                                 </div>
                             )}
+                            {(pckg?.allows_promotions === 1 || pckg?.allows_promotions === true || pckg?.type === 'promotional') && (
+                                <div className="flex items-center gap-3">
+                                    <span className="text-primary">
+                                        <CheckIcon weight="bold" />
+                                    </span>
+                                    <span className="text-normal">
+                                        {t("salesCampaignPromotionsIncluded")}
+                                        {pckg?.promotion_item_limit > 0 ? ` (${pckg.promotion_item_limit} ${t("items")})` : ` (${t("unlimited")})`}
+                                    </span>
+                                </div>
+                            )}
+                            {(pckg?.allows_daily_bump_up === 1 || pckg?.allows_daily_bump_up === true) && (
+                                <div className="flex items-center gap-3">
+                                    <span className="text-primary">
+                                        <CheckIcon weight="bold" />
+                                    </span>
+                                    <span className="text-normal">
+                                        {t("dailyBumpUpIncluded")}
+                                        {pckg?.daily_bump_up_limit > 0 ? ` (${pckg.daily_bump_up_limit} ${t("times")})` : ` (${t("unlimited")})`}
+                                    </span>
+                                </div>
+                            )}
+                            {(pckg?.allows_top_ad === 1 || pckg?.allows_top_ad === true) && (
+                                <div className="flex items-center gap-3">
+                                    <span className="text-primary">
+                                        <CheckIcon weight="bold" />
+                                    </span>
+                                    <span className="text-normal">
+                                        {t("topAdBoostIncluded")}
+                                        {pckg?.top_ad_limit > 0 ? ` (${pckg.top_ad_limit} ${t("items")})` : ` (${t("unlimited")})`}
+                                    </span>
+                                </div>
+                            )}
+                            {(pckg?.allows_spotlight === 1 || pckg?.allows_spotlight === true) && (
+                                <div className="flex items-center gap-3">
+                                    <span className="text-primary">
+                                        <CheckIcon weight="bold" />
+                                    </span>
+                                    <span className="text-normal">
+                                        {t("spotlightCarouselIncluded")}
+                                        {pckg?.spotlight_limit > 0 ? ` (${pckg.spotlight_limit} ${t("items")})` : ` (${t("unlimited")})`}
+                                    </span>
+                                </div>
+                            )}
                             {descriptionItems.map((item, index) => (
                                 <div key={index} className="flex items-center gap-3">
                                     <span

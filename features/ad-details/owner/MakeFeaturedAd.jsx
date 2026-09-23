@@ -7,12 +7,21 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "@/hooks/useNavigate";
 
-const MakeFeaturedAd = ({ item_id, setProductDetails }) => {
+import PromoteAdModal from "@/features/offers/PromoteAdModal";
+import AddToPromotionModal from "@/features/offers/AddToPromotionModal";
+import { SparkleIcon, FireIcon } from "@phosphor-icons/react";
+import { useSelector } from "react-redux";
+import { userSignUpData } from "@/store/slices/authSlice";
+
+const MakeFeaturedAd = ({ item_id, item, setProductDetails }) => {
   const { t } = useTranslation();
+  const userData = useSelector(userSignUpData);
   const [isGettingLimits, setIsGettingLimits] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalConfig, setModalConfig] = useState({});
   const [isConfirmLoading, setIsConfirmLoading] = useState(false);
+  const [isPromoteModalOpen, setIsPromoteModalOpen] = useState(false);
+  const [isJoinPromoModalOpen, setIsJoinPromoModalOpen] = useState(false);
   const { navigate } = useNavigate();
 
   const handleCreateFeaturedAd = async () => {
@@ -75,22 +84,80 @@ const MakeFeaturedAd = ({ item_id, setProductDetails }) => {
 
   return (
     <>
-      <div className="border rounded-md p-4 flex flex-col md:flex-row items-center gap-3 justify-between">
-        <div className="flex flex-col md:flex-row items-center gap-4">
-          <div className="bg-muted py-4 px-5 rounded-md">
-            <div className="w-15.5 h-18.75 relative">
-              <AdIconIllustration className="absolute inset-0 w-full h-full" />
+      <div className="border rounded-2xl p-5 flex flex-col gap-4 bg-card">
+        <div className="flex flex-col md:flex-row items-center gap-4 justify-between">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="bg-muted py-3 px-4 rounded-xl">
+              <div className="w-12 h-14 relative">
+                <AdIconIllustration className="absolute inset-0 w-full h-full" />
+              </div>
+            </div>
+            <div>
+              <h4 className="text-lg font-bold text-foreground text-center md:text-left">
+                {t("boostAdVisibility") || "Boost & Promote Your Advertisement"}
+              </h4>
+              <p className="text-sm text-muted-foreground text-center md:text-left">
+                {t("featureAdPrompt")}
+              </p>
             </div>
           </div>
-          <p className="text-xl font-medium text-center md:ltr:text-left md:rtl:text-right">
-            {t("featureAdPrompt")}
-          </p>
-        </div>
 
-        <Button onClick={handleCreateFeaturedAd} disabled={isGettingLimits}>
-          {t("createFeaturedAd")}
-        </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              onClick={() => {
+                if (userData && !userData.is_verified) {
+                  setModalConfig({
+                    title: t("verificationRequiredTitle") || "Seller Verification Required",
+                    description: t("verificationRequiredDesc") || "Only verified seller accounts can promote listings and participate in sales. Please verify your account first.",
+                    cancelText: t("cancel"),
+                    confirmText: t("verifyNow") || "Verify Account Now",
+                    onConfirm: () => navigate("/user-verification"),
+                  });
+                  setIsModalOpen(true);
+                  return;
+                }
+                setIsPromoteModalOpen(true);
+              }}
+              variant="default"
+              className="bg-primary flex items-center gap-1.5"
+            >
+              <SparkleIcon size={18} weight="fill" />
+              <span>{t("promoteAd") || "Promote this Ad"}</span>
+            </Button>
+
+            <Button
+              onClick={() => {
+                if (userData && !userData.is_verified) {
+                  setModalConfig({
+                    title: t("verificationRequiredTitle") || "Seller Verification Required",
+                    description: t("verificationRequiredDesc") || "Only verified seller accounts can promote listings and participate in sales. Please verify your account first.",
+                    cancelText: t("cancel"),
+                    confirmText: t("verifyNow") || "Verify Account Now",
+                    onConfirm: () => navigate("/user-verification"),
+                  });
+                  setIsModalOpen(true);
+                  return;
+                }
+                setIsJoinPromoModalOpen(true);
+              }}
+              variant="outline"
+              className="border-amber-500/40 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 flex items-center gap-1.5"
+            >
+              <FireIcon size={18} weight="fill" className="text-amber-500" />
+              <span>{t("joinSale") || "Join Sale / Flash Deal"}</span>
+            </Button>
+
+            <Button
+              onClick={handleCreateFeaturedAd}
+              disabled={isGettingLimits}
+              variant="secondary"
+            >
+              {t("createFeaturedAd")}
+            </Button>
+          </div>
+        </div>
       </div>
+
       <ReusableAlertDialog
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
@@ -101,8 +168,21 @@ const MakeFeaturedAd = ({ item_id, setProductDetails }) => {
         confirmText={modalConfig.confirmText}
         confirmDisabled={isConfirmLoading}
       />
+
+      <PromoteAdModal
+        isOpen={isPromoteModalOpen}
+        setIsOpen={setIsPromoteModalOpen}
+        itemId={item_id}
+      />
+
+      <AddToPromotionModal
+        isOpen={isJoinPromoModalOpen}
+        setIsOpen={setIsJoinPromoModalOpen}
+        item={item || { id: item_id }}
+      />
     </>
   );
 };
 
 export default MakeFeaturedAd;
+

@@ -9,7 +9,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CheckSquareOffsetIcon, EyeIcon, HeartIcon, PlayCircleIcon, TrashIcon } from "@phosphor-icons/react";
+import { CheckSquareOffsetIcon, EyeIcon, FireIcon, HeartIcon, LightningIcon, PlayCircleIcon, RocketLaunchIcon, SparkleIcon, TagIcon, TrashIcon } from "@phosphor-icons/react";
 
 const MyAdsCard = ({
   data,
@@ -92,6 +92,41 @@ const MyAdsCard = ({
             </div>
           )}
         </div>
+
+        {/* Active Promotions & Campaigns Badge Strip */}
+        {data?.active_promotions?.has_active_promotions && (
+          <div className="flex items-center gap-1.5 flex-wrap my-1">
+            {data.active_promotions.is_daily_bumped && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/30">
+                <RocketLaunchIcon size={12} weight="fill" />
+                {t("dailyBump") || "Bumped"}
+              </span>
+            )}
+            {data.active_promotions.is_top_ad && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                <FireIcon size={12} weight="fill" />
+                {t("topAd") || "Top Ad"}
+              </span>
+            )}
+            {data.active_promotions.is_spotlight && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30">
+                <SparkleIcon size={12} weight="fill" />
+                {t("spotlight") || "Spotlight"}
+              </span>
+            )}
+            {data.active_promotions.sales?.map((sale) => (
+              <span
+                key={sale.id}
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-destructive/10 text-destructive border border-destructive/20"
+                title={`${sale.promotion_title}${sale.campaign_title ? ` (${sale.campaign_title})` : ''}`}
+              >
+                <LightningIcon size={11} weight="fill" />
+                {sale.campaign_title ? sale.campaign_title : (sale.promotion_title || "Active Sale")}
+                {sale.discount_percentage ? ` -${sale.discount_percentage}%` : ''}
+              </span>
+            ))}
+          </div>
+        )}
 
         {!isHidePrice && (
           <p className="font-medium line-clamp-1">

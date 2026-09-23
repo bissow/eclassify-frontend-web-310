@@ -26,7 +26,7 @@ import {
 } from "@/store/slices/globalStateSlice.js";
 import { deleteUserApi, logoutApi } from "@/lib/api";
 import CustomImage from "@/components/common/CustomImage.jsx";
-import { CircleNotchIcon, MapPinIcon, PlusCircleIcon, StorefrontIcon } from "@phosphor-icons/react";
+import { CircleNotchIcon, FireIcon, MapPinIcon, PlusCircleIcon, StorefrontIcon } from "@phosphor-icons/react";
 import { useNavigate } from "@/hooks/useNavigate.jsx";
 import { usePathname } from "next/navigation.js";
 import HeaderCategories from "@/features/navigation/home/HeaderCategories.jsx";
@@ -226,6 +226,15 @@ const HomeHeader = ({ cityData }) => {
             <div className="hidden lg:flex items-center border leading-none rounded">
               <Search />
             </div>
+
+            <CustomLink
+              href="/offers"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-sm font-semibold hover:bg-amber-500/20 transition-colors"
+              title={t("offerZone") || "Offer Zone & Sales"}
+            >
+              <FireIcon size={18} className="text-amber-500 shrink-0" weight="fill" />
+              <span className="hidden xl:inline">{t("offerZone") || "Offers"}</span>
+            </CustomLink>
 
             <CustomLink
               href="/stores"

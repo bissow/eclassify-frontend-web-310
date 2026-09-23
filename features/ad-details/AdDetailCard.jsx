@@ -61,12 +61,36 @@ const AdDetailCard = ({ productDetails, setProductDetails }) => {
           >
             {translation?.name || productDetails?.name}
           </h1>
-          <h2
-            className="text-2xl sm:text-3xl text-primary font-bold break-all text-balance line-clamp-2"
-            title={price}
-          >
-            {price}
-          </h2>
+
+          {/* Promotion / Sale Badge */}
+          {productDetails?.active_promotion_item && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-white bg-destructive shadow-xs">
+                🔥 {productDetails.active_promotion_item.discount_type === "percentage"
+                  ? `${productDetails.active_promotion_item.discount_value}% OFF`
+                  : `SAVE ${productDetails.active_promotion_item.discount_value}`} - {t("specialOffer") || "SALE"}
+              </span>
+              {productDetails.active_promotion_item.remaining_stock_quantity <= 5 && (
+                <span className="text-xs font-bold text-amber-600 dark:text-amber-400">
+                  ⚡ {t("onlyFewLeft") || `Only ${productDetails.active_promotion_item.remaining_stock_quantity} left in stock!`}
+                </span>
+              )}
+            </div>
+          )}
+
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <h2
+              className="text-2xl sm:text-3xl text-primary font-bold break-all text-balance line-clamp-2"
+              title={price}
+            >
+              {productDetails?.active_promotion_item?.formatted_promotional_price || price}
+            </h2>
+            {productDetails?.active_promotion_item && (
+              <span className="text-lg font-medium line-through text-muted-foreground">
+                {price}
+              </span>
+            )}
+          </div>
         </div>
         {/* Tablet & Desktop only: like + share buttons (vertical, beside title/price) */}
         <div className="hidden sm:flex flex-col gap-4">
