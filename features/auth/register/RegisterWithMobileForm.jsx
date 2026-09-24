@@ -235,7 +235,7 @@ const RegisterWithMobileForm = ({
       setShowLoader(false);
       return;
     }
-    if (otp_service_provider === "twilio" || otp_service_provider === "2factor") {
+    if (otp_service_provider === "twilio" || otp_service_provider === "2factor" || otp_service_provider === "test") {
       await sendOtpWithTwillio(PhoneNumber);
     } else {
       await sendOtpWithFirebase(PhoneNumber);

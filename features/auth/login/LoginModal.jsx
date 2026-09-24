@@ -208,7 +208,7 @@ const LoginModal = ({ IsLoginOpen, setIsRegisterModalOpen, googleConsent, setGoo
   // Handle forgot password - send OTP and show OTP screen
   const handleForgotPassword = async () => {
     const PhoneNumber = `${loginStates.countryCode}${formattedNumber}`;
-    if (otp_service_provider === "twilio" || otp_service_provider === "2factor") {
+    if (otp_service_provider === "twilio" || otp_service_provider === "2factor" || otp_service_provider === "test") {
       try {
         const response = await getOtpApi.getOtp({ number: formattedNumber, country_code: countryCode });
         if (response?.data?.error === false) {

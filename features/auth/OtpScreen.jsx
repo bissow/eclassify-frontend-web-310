@@ -146,7 +146,7 @@ const OtpScreen = ({
       return;
     }
     setShowLoader(true);
-    if (otp_service_provider === "twilio" || otp_service_provider === "2factor") {
+    if (otp_service_provider === "twilio" || otp_service_provider === "2factor" || otp_service_provider === "test") {
       await verifyOTPWithTwillio();
     } else {
       await verifyOTPWithFirebase();
@@ -191,7 +191,7 @@ const OtpScreen = ({
     e.preventDefault();
     setResendOtpLoader(true);
     const PhoneNumber = `${countryCode}${formattedNumber}`;
-    if (otp_service_provider === "twilio" || otp_service_provider === "2factor") {
+    if (otp_service_provider === "twilio" || otp_service_provider === "2factor" || otp_service_provider === "test") {
       await resendOtpWithTwillio(formattedNumber);
     } else {
       await resendOtpWithFirebase(PhoneNumber);
